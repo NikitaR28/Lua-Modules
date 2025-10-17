@@ -194,6 +194,7 @@ local PREFIXES = {
 	matcherinolink = {'https://matcherino.com/t/'},
 	mildom = {'https://www.mildom.com/'},
 	mplink = {match = 'https://osu.ppy.sh/community/matches/'}, -- Should this key be renamed?
+	lazermplink = {match = 'https://osu.ppy.sh/multiplayer/rooms/'},
 	niconico = {'https://www.nicovideo.jp/'},
 	nimotv = {'https://www.nimo.tv/'},
 	['nwc3l'] = {
@@ -242,6 +243,11 @@ local PREFIXES = {
 		match = 'https://royaleapi.com/'
 	},
 	rules = {''},
+	sendou = {
+		'https://sendou.ink/to/',
+		player = 'https://sendou.ink/u/',
+		team = 'https://sendou.ink/t/',
+	},
 	shift = {
 		'https://www.shiftrle.gg/events/',
 		match = 'https://www.shiftrle.gg/matches/',
@@ -270,6 +276,11 @@ local PREFIXES = {
 	spotify = {'https://open.spotify.com/'},
 	steamalternative = {'https://steamcommunity.com/profiles/'},
 	stats = {'', match = ''},
+	statshark = {
+		'https://statshark.net/',
+		player = 'https://statshark.net/player/',
+		team = 'https://statshark.net/squadrons/',
+	},
 	stratz = {
 		'https://stratz.com/leagues/',
 		player = 'https://stratz.com/players/',
@@ -278,6 +289,10 @@ local PREFIXES = {
 	stream = {''},
 	telegram = {'https://t.me/'},
 	tespa = {match = 'https://web.archive.org/web/compete.tespa.org/tournament/'},
+	tetrio = {
+		'',
+		player = 'https://ch.tetr.io/u/'
+	},
 	tftv = {
 		'https://www.teamfortress.tv/',
 		player = 'https://www.teamfortress.tv/user/',
@@ -340,6 +355,7 @@ local SUFFIXES = {
 		stream = '/live',
 	},
 	gol = {match = '/page-game/'},
+	lazermplink = {match = '/events'},
 	iccup = {'.html'},
 	['faceit-c'] = {'/'},
 	['faceit-hub'] = {'/'},
@@ -514,6 +530,10 @@ local MATCH_ICONS = {
 	},
 	mplink = {
 		icon = 'File:Osu single color allmode.png',
+		text = 'Match Data'
+	},
+	lazermplink = {
+		icon = 'File:Osu!lazer allmode.png',
 		text = 'Match Data'
 	},
 	opl = {

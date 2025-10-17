@@ -76,9 +76,9 @@ return {
 	helparticles = 'far fa-life-ring',
 
 	-- Usage: To indicate different transfer type with icon difference not just background colour
-	transferbetween = 'fas fa-arrow-alt-right',
-	transfertofreeagent = 'fas fa-arrow-alt-from-left',
-	fransferfromfreeagent = 'fas fa-arrow-alt-to-right',
+	transferbetween = 'far fa-arrow-alt-right',
+	transfertofreeagent = 'far fa-arrow-alt-to-right',
+	transferfromfreeagent = 'far fa-arrow-alt-from-left',
 
 	-- Usage: Reference links in tables (ie transfers)
 	reference = 'fad fa-external-link-alt',
@@ -154,6 +154,8 @@ return {
 	acs = 'far fa-abacus',
 	kast = 'fas fa-hands-helping',
 	headshot = 'far fa-crosshairs',
+	firstkill = 'far fa-dagger',
+	team_firstkills = 'fas fa-swords fa-flip-vertical',
 
 	dota2_gpm = 'fas fa-coin',
 	dota2_lhdn = 'fas fa-swords',
@@ -198,6 +200,8 @@ return {
 	copyright = 'far fa-copyright',
 	getting_started = 'far fa-seedling',
 	file_standards_guide = 'far fa-file-check',
+	find_images = 'fad fa-file-search',
+	clipboard = 'fad fa-clipboard-list',
 
 	-- Streams and Vods
 	youtube = 'fab fa-youtube',
@@ -217,5 +221,10 @@ return {
 	trovo = 'liquipedia-custom-icon liquipedia-custom-icon-trovo',
 	tl = 'liquipedia-custom-icon liquipedia-custom-icon-team-liquid',
 	stream = 'liquipedia-custom-icon liquipedia-custom-icon-team-liquid',
-	vod_play = 'far fa-play'
+	vod_play = 'far fa-play',
+
+	-- Usage: Formula 1
+	ongoing_series = 'fas fa-hourglass-half ',
+	season_history = 'fas fa-landmark',
+	finished_race = 'fas fa-flag-checkered'
 }
