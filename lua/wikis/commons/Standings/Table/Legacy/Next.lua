@@ -32,7 +32,7 @@ local StandingTableLegacyNext = {}
 
 local MAX_ROUND_COUNT = 30
 -- Bgs are set up to this slot, so the last one still applies if the opponents are undercounted
-local MAX_SLOT_COUNT = 100
+local MAX_SLOT_COUNT = 1000
 local OPPONENT_PREFIXES = {'p', 't', 'team', 'opponent'}
 
 local TIEBREAKER_MAPPING_TABLE = {
@@ -50,6 +50,17 @@ local TIEBREAKER_MAPPING_TABLE = {
 	['game%'] = 'gamewinrate',
 	['game percentage'] = 'gamewinrate',
 	['game-percentage'] = 'gamewinrate',
+}
+
+local BG_ALIASES = {
+	u = 'up',
+	proceed = 'up',
+	win = 'up',
+	su = 'stayup',
+	s = 'stay',
+	sd = 'staydown',
+	drop = 'down',
+	d = 'down',
 }
 
 -- These are always added by the standings, so they are dropped from the input
@@ -121,7 +132,7 @@ function StandingTableLegacyNext.convert(frame)
 end
 
 ---@param oldArgs table
----@param options? {defaultTiebreakers: (fun(args: table): string[])?}
+---@param options? {defaultTiebreakers: (fun(args: table): string[])?, extraArgs: table?}
 ---@return Renderable
 function StandingTableLegacyNext.convertFromArgs(oldArgs, options)
 	local push = Logic.readBool(oldArgs.push)
@@ -131,6 +142,7 @@ function StandingTableLegacyNext.convertFromArgs(oldArgs, options)
 	assert(tableType == 'swiss' or tableType == 'group', 'Invalid or missing tableType')
 
 	local newArgs = StandingTableLegacyNext.convertToNewArgs(oldArgs, tableType, options)
+	Table.mergeInto(newArgs, (options or {}).extraArgs or {})
 
 	local function itemToCode(tbl)
 		if type(tbl) == 'boolean' then
@@ -381,7 +393,7 @@ end
 function StandingTableLegacyNext.parseBgs(args, opponentCount)
 	local pbgs = {}
 	for slotIndex = 1, MAX_SLOT_COUNT do
-		pbgs[slotIndex] = args['pbg' .. slotIndex]
+		pbgs[slotIndex] = StandingTableLegacyNext._aliasBg(args['pbg' .. slotIndex])
 	end
 	if Table.isEmpty(pbgs) then
 		if opponentCount > 4 then
@@ -487,6 +499,7 @@ function StandingTableLegacyNext._tryToParseWikiTemplateOpponent(input)
 		if Logic.isEmpty(key) then
 			unnamedCounter = unnamedCounter + 1
 			key = unnamedCounter
+			value = argsPair
 		end
 		key = tonumber(key) or key
 		opponent[key] = value
@@ -544,6 +557,12 @@ function StandingTableLegacyNext.parseDisqualifiedFromRound(args, index, roundCo
 	end)
 end
 
+---@param input string?
+---@return string?
+function StandingTableLegacyNext._aliasBg(input)
+	return BG_ALIASES[input] or input
+end
+
 ---`round<R>bg<N>` maps to `r<R>bg` on the opponent, `bg<N>` applies to the final round.
 ---@param args table
 ---@param index integer
@@ -552,9 +571,9 @@ end
 function StandingTableLegacyNext.parseDefiniteStatuses(args, index, roundCount)
 	return Table.map(Array.range(1, roundCount), function(roundIndex)
 		---@type string?
-		local status = args['round' .. roundIndex .. 'bg' .. index]
+		local status = StandingTableLegacyNext._aliasBg(args['round' .. roundIndex .. 'bg' .. index])
 		if not status and roundIndex == roundCount then
-			status = args['bg' .. index]
+			status = StandingTableLegacyNext._aliasBg(args['bg' .. index])
 		end
 		return 'r' .. roundIndex .. 'bg', status
 	end)
@@ -692,7 +711,7 @@ function StandingTableLegacyNext.fetchMatches(args)
 
 	return mw.ext.LiquipediaDB.lpdb('match2', {
 		conditions = tostring(conditions),
-		query = 'match2id, date, match2bracketdata, match2opponents',
+		query = 'match2id, date, bestof, game, match2bracketdata, match2opponents',
 		order = 'date asc',
 		limit = 1000,
 	})
